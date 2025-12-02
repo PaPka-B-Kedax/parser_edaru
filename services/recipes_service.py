@@ -12,7 +12,7 @@ async def create_recipe_logic(recipe: RecipeSchema, db: AsyncSession):
         eda_id=fake_eda_id,
         name=recipe.name,
         url=recipe.url,
-        cooking_time=int(recipe.cooking_time) if recipe.cooking_time.isdigit() else 0,
+        cooking_time=recipe.cooking_time or 0,
         portions=recipe.portions
     )
 

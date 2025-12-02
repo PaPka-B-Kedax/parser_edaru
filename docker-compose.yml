@@ -33,7 +33,7 @@ services:
       - .env
     depends_on:
       db:
-        condition: service_healty
+        condition: service_healthy
     
 volumes:
   postgres_data:
