@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15
@@ -12,10 +10,15 @@ services:
     ports:
       - "${DB_PORT}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data 
-    
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   app:
-    build: .
+    image: papkabkedax/eda-parser:latest
     container_name: eda_backend
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     ports:
@@ -26,8 +29,11 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
       - DB_NAME=${DB_NAME}
+    env_file:
+      - .env
     depends_on:
-      - db
+      db:
+        condition: service_healty
     
 volumes:
   postgres_data:

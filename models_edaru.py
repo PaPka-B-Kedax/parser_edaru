@@ -1,6 +1,5 @@
 from sqlalchemy import String, Integer, Text, DateTime, ForeignKey, func
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 from database import Base
 
