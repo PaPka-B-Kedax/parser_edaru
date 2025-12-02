@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, computed_field, field_validator
 from typing import List, Optional
 
 
@@ -22,6 +22,14 @@ class RecipeSchema(BaseModel):
     name: str
     url: str
     cooking_time: int
+    @computed_field
+    def cooking_time_str(self) -> str:
+        if self.cooking_time < 60:
+            return f"{self.cooking_time} мин"
+        else:
+            a = self.cooking_time // 60
+            b = self.cooking_time - (a * 60)
+            return f"{a} ч {b} мин"
     portions: int = Field(ge=1, default=1, description="Количество порций")
     ingredients: List[IngredientSchema] = []
     category: Optional[CategoryOut] = None
